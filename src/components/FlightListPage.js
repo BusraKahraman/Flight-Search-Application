@@ -47,20 +47,13 @@ const FlightListPage = ({ flights, setCurrentView }) => {
       <div className='filter-dropdown mt3'>
         <label htmlFor='filter'>Sort By: </label>
         <select id='filter' value={filterOption} onChange={handleFilterChange}>
-          <option value='departureTime'>
-            <span>Departure Time</span>
-          </option>
-          <option value='arrivalTime'>
-            <span>Arrival Time</span>
-          </option>
-          <option value='flightLength'>
-            <span>Flight Length</span>
-          </option>
-          <option value='price'>
-            <span>Price</span>
-          </option>
+          <option value='departureTime'>Departure Time</option>
+          <option value='arrivalTime'>Arrival Time</option>
+          <option value='flightLength'>Flight Length</option>
+          <option value='price'>Price</option>
         </select>
       </div>
+
       <div className='flight-list-box'>
         <FlightList flights={filteredFlights} />
       </div>

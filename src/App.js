@@ -6,14 +6,22 @@ import flightData from './flightData.json';
 
 function App() {
   const [currentView, setCurrentView] = useState('search');
+  const [filteredFlights, setFilteredFlights] = useState([]);
 
   return (
     <div className='App'>
       {currentView === 'search' && (
-        <SearchFormPage setCurrentView={setCurrentView} flights={flightData} />
+        <SearchFormPage
+          setCurrentView={setCurrentView}
+          flights={flightData}
+          setFilteredFlights={setFilteredFlights}
+        />
       )}
       {currentView === 'flights' && (
-        <FlightListPage setCurrentView={setCurrentView} flights={flightData} />
+        <FlightListPage
+          setCurrentView={setCurrentView}
+          flights={filteredFlights}
+        />
       )}
     </div>
   );

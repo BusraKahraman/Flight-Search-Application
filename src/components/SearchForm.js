@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
-import AirportCodes from '../AirportCodes';
 import '../dist/SearchForm.css';
 
 const SearchForm = ({ flights, handleSearch }) => {
@@ -56,6 +55,16 @@ const SearchForm = ({ flights, handleSearch }) => {
     });
 
     if (!oneWay) {
+      const departureTime =
+        departureDate instanceof Date ? departureDate.getTime() : null;
+      const arrivalTime =
+        arrivalDate instanceof Date ? arrivalDate.getTime() : null;
+
+      if (arrivalTime < departureTime) {
+        alert('Invalid arrival date');
+        return;
+      }
+
       filteredFlights = filteredFlights.filter((flight) => {
         const flightDepartureDate = new Date(flight.departureDate);
         const flightArrivalDate = new Date(flight.arrivalDate);
@@ -66,17 +75,9 @@ const SearchForm = ({ flights, handleSearch }) => {
       });
     }
 
-    const departureTime =
-      departureDate instanceof Date ? departureDate.getTime() : null;
-    const arrivalTime =
-      arrivalDate instanceof Date ? arrivalDate.getTime() : null;
-
-    if (!oneWay && arrivalTime < departureTime) {
-      alert('Invalid arrival date');
-      return;
-    }
     handleSearch(filteredFlights);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className='submit-container mw5 mw7-ns center pa3 ph5-ns'>
@@ -94,11 +95,8 @@ const SearchForm = ({ flights, handleSearch }) => {
             className='pa2 input-reset ba bg-white hover-bg-black hover-white w-100'
           />
           <datalist id='departure-cities'>
-            {departureCities.map((cityCode, index) => (
-              <option
-                key={`departure-${index}`}
-                value={AirportCodes[cityCode]}
-              />
+            {departureCities.map((city, index) => (
+              <option key={`departure-${index}`} value={city} />
             ))}
           </datalist>
         </div>
@@ -116,8 +114,8 @@ const SearchForm = ({ flights, handleSearch }) => {
             className='pa2 input-reset ba bg-white hover-bg-black hover-white w-100'
           />
           <datalist id='arrival-cities'>
-            {arrivalCities.map((cityCode, index) => (
-              <option key={`arrival-${index}`} value={AirportCodes[cityCode]} />
+            {arrivalCities.map((city, index) => (
+              <option key={`arrival-${index}`} value={city} />
             ))}
           </datalist>
         </div>

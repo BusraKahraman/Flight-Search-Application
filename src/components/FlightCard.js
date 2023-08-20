@@ -9,8 +9,6 @@ const FlightCard = ({
   arrivalTime,
   departureAirportCode,
   arrivalAirportCode,
-  departureDate,
-  arrivalDate,
   price,
 }) => {
   const departureDateTime = new Date(departureTime);
