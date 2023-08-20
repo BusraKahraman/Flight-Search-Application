@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+.submit-container {
+  border-radius: 20px;
+  color: #e8e6e3;
+  background: #181a1b;
+  font-family: "Roboto", sans-serif;
+}
+
+.one-way {
+  font-size: 18px;
+  font-weight: 600;
+}/*# sourceMappingURL=SearchForm.css.map */

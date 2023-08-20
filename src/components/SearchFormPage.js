@@ -8,8 +8,8 @@ const SearchFormPage = ({ setCurrentView }) => {
   };
 
   return (
-    <div className='container'>
-      <div className='box'>
+    <div>
+      <div>
         <SearchForm flights={flightData} handleSearch={handleSearch} />
       </div>
     </div>

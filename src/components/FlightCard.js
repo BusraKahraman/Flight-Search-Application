@@ -1,4 +1,5 @@
 import React from 'react';
+import '../dist/FlightCard.css';
 
 const FlightCard = ({
   airline,
@@ -6,15 +7,12 @@ const FlightCard = ({
   arrivalCity,
   departureTime,
   arrivalTime,
+  departureAirportCode,
+  arrivalAirportCode,
   departureDate,
   arrivalDate,
   price,
 }) => {
-  console.log('departureDate:', departureDate);
-  console.log('arrivalDate:', arrivalDate);
-  console.log('departureTime:', departureTime);
-  console.log('arrivalTime:', arrivalTime);
-
   const departureDateTime = new Date(departureTime);
   const arrivalDateTime = new Date(arrivalTime);
 
@@ -37,13 +35,37 @@ const FlightCard = ({
 
   return (
     <div className='container'>
-      <h3>{airline}</h3>
-      <p>From: {departureCity}</p>
-      <p>To: {arrivalCity}</p>
-      <p>Departure: {formatTime(departureDateTime)}</p>
-      <p>Arrival: {formatTime(arrivalDateTime)}</p>
-      <p>Flight Length: {calculateFlightLength()}</p>
-      <p>Price: ${price}</p>
+      <div className='center mw5 mw6-ns br3 hidden ba b--black-10 mv4'>
+        <h3 className='f4 bg-near-white br3 br--top black-60 mv0 pv2 ph3'>
+          {airline}
+        </h3>
+        <div className='card-content mw5 mw7-ns center bg-light-gray pa3 ph5-ns'>
+          <p>
+            <span>From: </span>
+            {departureCity} ({departureAirportCode})
+          </p>
+          <p>
+            <span>To: </span>
+            {arrivalCity} ({arrivalAirportCode})
+          </p>
+          <p>
+            <span>Departure Time: </span>
+            {formatTime(departureDateTime)}
+          </p>
+          <p>
+            <span>Arrival Time: </span>
+            {formatTime(arrivalDateTime)}
+          </p>
+          <p>
+            <span>Flight Length: </span>
+            {calculateFlightLength()}
+          </p>
+          <p>
+            <span>Price: $</span>
+            {price}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+$font: 'Roboto', sans-serif;
+
+.submit-container {
+  border-radius: 20px;
+  color: #e8e6e3;
+  background: #181a1b;
+  font-family: $font;
+}
+
+.one-way {
+  font-size: 18px;
+  font-weight: 600;
+}

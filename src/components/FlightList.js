@@ -9,9 +9,13 @@ const FlightList = ({ flights }) => {
           key={flight.id}
           airline={flight.airline}
           departureCity={flight.departureCity}
+          departureAirportCode={flight.departureAirportCode}
           arrivalCity={flight.arrivalCity}
+          arrivalAirportCode={flight.arrivalAirportCode}
           departureTime={new Date(flight.departureTime)}
           arrivalTime={new Date(flight.arrivalTime)}
+          departureDate={flight.departureDate}
+          arrivalDate={flight.arrivalDate}
           price={flight.price}
         />
       ))}

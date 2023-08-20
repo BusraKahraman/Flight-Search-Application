@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.min.css';
+import AirportCodes from '../AirportCodes';
+import '../dist/SearchForm.css';
 
 const SearchForm = ({ flights, handleSearch }) => {
   // State variables
@@ -41,28 +43,28 @@ const SearchForm = ({ flights, handleSearch }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!departureAirport || (!arrivalAirport && !oneWay)) {
+    if (!departureAirport || !arrivalAirport) {
       alert('Please enter both departure and arrival airports.');
       return;
     }
 
-    const filteredFlights = flights.filter((flight) => {
-      if (oneWay) {
-        return (
-          flight.departureAirportCode.toLowerCase() ===
-          departureAirport.toLowerCase()
-        );
-      } else {
-        return (
-          flight.departureAirportCode.toLowerCase() ===
-            departureAirport.toLowerCase() &&
-          flight.arrivalAirportCode.toLowerCase() ===
-            arrivalAirport.toLowerCase()
-        );
-      }
+    let filteredFlights = flights.filter((flight) => {
+      return (
+        flight.departureCity.toLowerCase() === departureAirport.toLowerCase() &&
+        flight.arrivalCity.toLowerCase() === arrivalAirport.toLowerCase()
+      );
     });
 
-    handleSearch(filteredFlights);
+    if (!oneWay) {
+      filteredFlights = filteredFlights.filter((flight) => {
+        const flightDepartureDate = new Date(flight.departureDate);
+        const flightArrivalDate = new Date(flight.arrivalDate);
+        return (
+          flightDepartureDate >= departureDate &&
+          flightArrivalDate <= arrivalDate
+        );
+      });
+    }
 
     const departureTime =
       departureDate instanceof Date ? departureDate.getTime() : null;
@@ -73,13 +75,70 @@ const SearchForm = ({ flights, handleSearch }) => {
       alert('Invalid arrival date');
       return;
     }
+    handleSearch(filteredFlights);
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div className='container'>
-        <div className='one-way'>
-          <label htmlFor='checkbox'>One Way</label>
-
+      <div className='submit-container mw5 mw7-ns center pa3 ph5-ns'>
+        <div className='departure mt0'>
+          <label htmlFor='departure' className='db fw6 lh-copy f6'>
+            From
+          </label>
+          <input
+            type='text'
+            value={departureAirport}
+            onChange={handleDepartureAirportChange}
+            placeholder='From'
+            id='departure'
+            list='departure-cities'
+            className='pa2 input-reset ba bg-white hover-bg-black hover-white w-100'
+          />
+          <datalist id='departure-cities'>
+            {departureCities.map((cityCode, index) => (
+              <option
+                key={`departure-${index}`}
+                value={AirportCodes[cityCode]}
+              />
+            ))}
+          </datalist>
+        </div>
+        <div className='arrival mt3'>
+          <label htmlFor='arrival' className='db fw6 lh-copy f6'>
+            To
+          </label>
+          <input
+            type='text'
+            value={arrivalAirport}
+            onChange={handleArrivalAirportChange}
+            placeholder='To'
+            id='arrival'
+            list='arrival-cities'
+            className='pa2 input-reset ba bg-white hover-bg-black hover-white w-100'
+          />
+          <datalist id='arrival-cities'>
+            {arrivalCities.map((cityCode, index) => (
+              <option key={`arrival-${index}`} value={AirportCodes[cityCode]} />
+            ))}
+          </datalist>
+        </div>
+        <div className='depDate  mt3'>
+          <DatePicker
+            showIcon
+            selected={departureDate}
+            onChange={(date) => setDepartureDate(date)}
+          />
+        </div>
+        {!oneWay && (
+          <div className='arrDate  mt3'>
+            <DatePicker
+              showIcon
+              selected={arrivalDate}
+              onChange={(date) => setArrivalDate(date)}
+            />
+          </div>
+        )}
+        <div className='one-way mt3'>
+          <label htmlFor='search-checkbox'>One Way</label>
           <input
             type='checkbox'
             checked={oneWay}
@@ -88,62 +147,13 @@ const SearchForm = ({ flights, handleSearch }) => {
             id='checkbox'
           ></input>
         </div>
-        <div className='departure'>
-          <label htmlFor='departure'>From</label>
-          <input
-            type='text'
-            value={departureAirport}
-            onChange={handleDepartureAirportChange}
-            placeholder='From'
-            id='departure'
-            list='departure-cities'
-          />
-          <datalist id='departure-cities'>
-            {departureCities.map((city, index) => (
-              <option key={`departure-${index}`} value={city} />
-            ))}
-          </datalist>
-        </div>
-        <div className='arrival'>
-          {oneWay ? null : (
-            <>
-              <label htmlFor='arrival'>To</label>
-              <input
-                type='text'
-                value={arrivalAirport}
-                onChange={handleArrivalAirportChange}
-                placeholder='To'
-                id='arrival'
-                list='arrival-cities'
-              />
-              <datalist id='arrival-cities'>
-                {arrivalCities.map((city, index) => (
-                  <option key={`arrival-${index}`} value={city} />
-                ))}
-              </datalist>
-            </>
-          )}
-        </div>
-        <div className='depDate'>
-          <DatePicker
-            showIcon
-            selected={departureDate}
-            onChange={(date) => setDepartureDate(date)}
-          />
-        </div>
-        <div className='arrDate'>
-          {!oneWay && (
-            <>
-              <DatePicker
-                showIcon
-                selected={arrivalDate}
-                onChange={(date) => setArrivalDate(date)}
-              />
-            </>
-          )}
-        </div>
-        <div className='button'>
-          <button type='submit'>Search</button>
+        <div className='button mt3'>
+          <button
+            type='submit'
+            className='f4 grow no-underline br-pill ba b--white bw2 ph5 pv3 mb2 bg-transparent dib white'
+          >
+            Search
+          </button>
         </div>
       </div>
     </form>
