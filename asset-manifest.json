@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Flight-Search-Application/static/css/main.8ff69954.css",
+    "main.js": "/Flight-Search-Application/static/js/main.aaa1ee12.js",
+    "static/media/flight.jpg": "/Flight-Search-Application/static/media/flight.5528647949af0838651e.jpg",
+    "index.html": "/Flight-Search-Application/index.html",
+    "main.8ff69954.css.map": "/Flight-Search-Application/static/css/main.8ff69954.css.map",
+    "main.aaa1ee12.js.map": "/Flight-Search-Application/static/js/main.aaa1ee12.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8ff69954.css",
+    "static/js/main.aaa1ee12.js"
+  ]
+}
